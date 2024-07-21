@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * 
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereSubscriberId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUserId($value)
+ * @property-read \App\Models\User $subscriber
+ * @property-read \App\Models\User $user
  * @mixin \Eloquent
  */
 class Subscription extends Model
@@ -31,4 +34,12 @@ class Subscription extends Model
         'user_id',
         'subscriber_id'
     ];
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+    public function subscriber(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
 }

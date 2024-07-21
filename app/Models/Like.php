@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * 
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Like wherePostId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Like whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Like whereUserId($value)
+ * @property-read \App\Models\Post $post
+ * @property-read \App\Models\User $user
  * @mixin \Eloquent
  */
 class Like extends Model
@@ -31,4 +34,12 @@ class Like extends Model
         'post_id',
         'user_id'
     ];
+
+    public function post(): BelongsTo {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
 }
