@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \App\Models\User store(array $data)
+ * @method static \Illuminate\Http\JsonResponse login(array $data)
  *
  * @see UserService;
  */
