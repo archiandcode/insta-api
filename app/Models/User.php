@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SubscribeState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -80,7 +81,8 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
-    public function posts(): HasMany {
+    public function posts(): HasMany
+    {
         return $this->hasMany(Post::class);
     }
 
@@ -89,13 +91,30 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class);
     }
 
-    public function comments(): HasMany {
+    public function comments(): HasMany
+    {
         return $this->hasMany(Comment::class);
     }
 
-    public function subscribers(): HasMany {
-        return $this->hasMany(Subscription::class);
+    public function subscribe()
+    {
+        $subscription = Subscription::query()
+            ->whereUserId($this->id)
+            ->whereSubscriberId(auth()->id())
+            ->first();
+
+        if (is_null($subscription)) {
+            Subscription::query()
+                ->create([
+                    'user_id' => $this->id,
+                    'subscriber_id' => auth()->id(),
+                ]);
+
+            return SubscribeState::Subscribed;
+        }
+
+        $subscription->delete();
+
+        return SubscribeState::Unsubscribed;
     }
 }
-
-
