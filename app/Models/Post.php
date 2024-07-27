@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LikeState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,12 +38,12 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'description',
         'photo',
     ];
 
-    public function user(): BelongsTo {
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -51,7 +52,28 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function comments(): HasMany {
+    public function comments(): HasMany
+    {
         return $this->hasMany(Comment::class);
+    }
+
+    public function like()
+    {
+        $like = Like::query()
+            ->wherePostId($this->id)
+            ->whereUserId(auth()->id())
+            ->first();
+
+            if (is_null($like)) {
+                $this->likes()->create([
+                    'user_id' => auth()->id()
+                ]);
+
+                return LikeState::Liked;
+            }
+
+            $like->delete();   
+
+            return LikeState::Unliked;
     }
 }
