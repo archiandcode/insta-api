@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Post\PostService;
 use App\Services\User\UserService;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        UserResource::withoutWrapping();
     }
 }
