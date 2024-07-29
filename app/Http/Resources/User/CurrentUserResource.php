@@ -12,11 +12,12 @@ class CurrentUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name, 
+            'name' => $this->name,
             'email' => $this->email,
             'login' => $this->login,
             'subscribers' => $this->subscriptionsCount(),
-            'publications' => $this->postsCount()
+            'publications' => $this->postsCount(),
+            'avatar' => $this->avatar,
         ];
     }
 }
