@@ -20,7 +20,8 @@ class UserService
         );
     }
 
-    public function login(LoginData $data): JsonResponse {
+    public function login(LoginData $data): JsonResponse
+    {
         $user = User::query()->where('email', $data->email)->first();
 
 
@@ -37,14 +38,17 @@ class UserService
         return responseFailed('Invalid credentials', 401);
     }
 
-    public function update(UpdateUserData $data):User {
-        auth()->user()->update($data->toArray());
+    public function update(UpdateUserData $data): User
+    {
+        /** @var User $user*/
+        $user = auth()->user();
+        $user->update($data->toArray());
 
-        /* @var User */
-        return auth()->user();
+        return $user;
     }
 
-    public function updateAvatar(UploadedFile $avatar) {
+    public function updateAvatar(UploadedFile $avatar)
+    {
         /** @var User $user*/
         $user = auth()->user();
 
