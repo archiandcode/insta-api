@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Facade;
 
 
 /**
- * @method static \App\Models\User store(array $data)
- * @method static \Illuminate\Http\JsonResponse login(array $data)
+ * @method static \App\Models\User store(App\Data\User\RegisterData $data)
+ * @method static \Illuminate\Http\JsonResponse login(App\Data\User\LoginData $data)
+ * @method static \App\Models\User update(App\Data\User\UpdateUserData $data)
+ * @method static \App\Models\User updateAvatar(Illuminate\Http\UploadedFile $avatar)
  *
  * @see UserService;
  */
