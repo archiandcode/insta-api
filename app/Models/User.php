@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Enums\SubscribeState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -86,9 +87,14 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function subscriptions(): HasMany
+    public function subscribers(): BelongsToMany
     {
-        return $this->hasMany(Subscription::class);
+        return $this->belongsToMany(User::class, 'subscriptions', 'user_id', 'subscriber_id');
+    }
+
+    public function subscribedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
     }
 
     public function comments(): HasMany
@@ -116,5 +122,23 @@ class User extends Authenticatable
         $subscription->delete();
 
         return SubscribeState::Unsubscribed;
+    }
+
+    public function isSubscribed(): bool
+    {
+        return Subscription::query()
+            ->whereUserId($this->id)
+            ->whereSubscriberId(auth()->id())
+            ->exists();
+    }
+
+    public function subscriptionsCount()
+    {
+        return $this->subscriptions()->count();
+    }
+
+    public function postsCount()
+    {
+        return $this->posts()->count();
     }
 }
