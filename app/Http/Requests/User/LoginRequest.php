@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Data\User\LoginData;
 use App\Http\Requests\ApiRequest;
 
 class LoginRequest extends ApiRequest
@@ -13,4 +14,9 @@ class LoginRequest extends ApiRequest
             "password" => "required|string"
         ];
     }
+
+    public function data() : LoginData {
+        return LoginData::from($this->validated());
+    }
+
 }

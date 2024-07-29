@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Data\User\RegisterData;
 use App\Http\Requests\ApiRequest;
 
 class RegisterRequest extends ApiRequest
@@ -14,5 +15,9 @@ class RegisterRequest extends ApiRequest
             "email" => "required|string|max:255|email|unique:users,email",
             "password" => "required|string|confirmed|min:8",
         ];
+    }
+
+    public function data() : RegisterData {
+        return RegisterData::from($this->validated());
     }
 }
