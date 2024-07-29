@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request)
     {
-        return User::login($request->validated());
+        return User::login($request->data());
     }
 
 }

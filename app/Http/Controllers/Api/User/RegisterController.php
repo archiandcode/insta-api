@@ -10,10 +10,6 @@ class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request)
     {
-        $user = User::store($request->validated());
-
-        return response()->json([
-            'id' => $user->id
-        ], 201);
+        return User::store($request->data());
     }
 }
