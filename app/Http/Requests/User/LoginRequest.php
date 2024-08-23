@@ -10,7 +10,8 @@ class LoginRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            "email" => "required|string|email|exists:users,email",
+            "login" => "nullable|string|max:255",
+            "email" => "nullable|email|max:255",
             "password" => "required|string"
         ];
     }

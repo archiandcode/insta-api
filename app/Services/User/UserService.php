@@ -9,7 +9,7 @@ use App\Http\Resources\User\CurrentUserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Hash;
+use Spatie\LaravelData\Optional;
 
 class UserService
 {
@@ -22,17 +22,17 @@ class UserService
 
     public function login(LoginData $data): JsonResponse
     {
-        $user = User::query()->where('email', $data->email)->first();
+        if(!($data->email instanceof Optional)|| !($data->login instanceof Optional)) {
+            if (auth()->guard('web')->attempt($data->toArray())) {
+                /** @var User $user*/
+                $user = auth()->user();
+                $user->tokens()->delete();
+                $token = $user->createToken('auth_token')->plainTextToken;
 
-
-        if ($user && Hash::check($data->password, $user->password)) {
-            $user->tokens()->delete();
-
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            return response()->json([
-                'token' => $token
-            ]);
+                return response()->json([
+                    'token' => $token
+                ]);
+            }
         }
 
         return responseFailed('Invalid credentials', 401);
