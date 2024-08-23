@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Facades\Post as PostFacade;
 use App\Http\Requests\Post\AddCommentRequest;
 use App\Http\Requests\Post\PostStoreRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
+use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
@@ -14,15 +17,14 @@ class PostController extends Controller
     {
         $this->middleware('auth:sanctum');
     }
-    
-    public function index() {
-        $posts = PostFacade::posts();
-        return response()->json($posts);
-    }
 
     public function create(PostStoreRequest $request) {
         $post = PostFacade::store($request);
-        return response()->json($post);
+        return new PostResource($post);
+    }
+
+    public function update(Post $post, UpdatePostRequest $request) {
+        return PostFacade::update($post, $request->data());
     }
 
     public function delete(Post $post) {
