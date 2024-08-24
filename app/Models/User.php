@@ -134,7 +134,7 @@ class User extends Authenticatable
 
     public function subscriptionsCount()
     {
-        return $this->subscriptions()->count();
+        return $this->subscribers()->count();
     }
 
     public function postsCount()
