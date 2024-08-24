@@ -7,6 +7,7 @@ use App\Data\User\RegisterData;
 use App\Data\User\UpdateUserData;
 use App\Http\Resources\User\CurrentUserResource;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Spatie\LaravelData\Optional;
@@ -47,7 +48,7 @@ class UserService
         return $user;
     }
 
-    public function updateAvatar(UploadedFile $avatar)
+    public function updateAvatar(UploadedFile $avatar): User
     {
         /** @var User $user*/
         $user = auth()->user();
@@ -57,5 +58,21 @@ class UserService
         ]);
 
         return $user;
+    }
+
+    public function posts(User $user): Collection
+    {
+        return $user
+            ->posts()
+            ->where('is_archived', '=', false)
+            ->get();
+    }
+
+    public function currentUserPosts(): Collection
+    {
+        /** @var User $currentUser */
+        $currentUser = auth()->user();
+
+        return $currentUser->posts()->get();
     }
 }

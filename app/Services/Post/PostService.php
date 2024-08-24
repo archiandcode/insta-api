@@ -2,40 +2,45 @@
 
 namespace App\Services\Post;
 
+use App\Data\Post\CreatePostData;
 use App\Data\Post\UpdatePostData;
-use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class PostService
 {
-    public function store(PostStoreRequest $request): Model
+    public function index(User $user): Collection
     {
+        return $user->posts()->get();
+    }
 
-        $path = $request->file('photo')->storePublicly('images');
+    public function store(CreatePostData $data): Model
+    {
+        $path = $data->photo->storePublicly('images');
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = auth()->user();
 
         return $user->posts()->create([
             'photo' => config('app.url') . Storage::url($path),
-            'description' => $request->str('description')
+            'description' => $data->description
         ]);
     }
 
     public function update(Post $post, UpdatePostData $data): PostResource|JsonResponse
     {
-        /** @var \App\Models\User $user*/
+        /** @var User $user*/
         $user = auth()->user();
 
         if ($user->id !== $post->user_id) {
             return responseFailed('Unauthorized', 403);
         }
-
 
         $post->update($data->toArray());
 
@@ -44,7 +49,7 @@ class PostService
 
     public function delete(Post $post): JsonResponse|Response
     {
-        /** @var \App\Models\User $user*/
+        /** @var User $user*/
         $user = auth()->user();
 
         if ($user->id !== $post->user_id) {
