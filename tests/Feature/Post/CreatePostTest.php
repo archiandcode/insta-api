@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Post;
 
-use App\Models\Comment;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -49,4 +47,37 @@ class CreatePostTest extends TestCase
         $this->assertEquals(1, $post->likesCount());
     }
 
+    public function test_create_post_with_invalid_data() {
+        $user = $this->getUser();
+
+        $response  = $this->actingAs($user)->post(route('posts.create'), [
+            'description' => ''
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors(['photo', 'description']);
+    }
+
+    public function test_update_post() {
+        $user = $this->getUser();
+        $post = Post::factory()->create(['user_id' => $user]);
+
+        $data = ['description' => 'asdfadsf sdaf safd dfsa fa ds'];
+        $response = $this->patch(route('posts.update', $post), $data);
+
+        $response->assertOk();
+    }
+
+    public function test_update_post_with_invalid_data() {
+        $user = $this->getUser();
+
+        $post = Post::factory()->create(['user_id' => $user]);
+
+        $data = ['description' => ''];
+
+        $response = $this->patch(route('posts.update', $post), $data);
+
+        $response->assertUnprocessable();
+    }
 }
