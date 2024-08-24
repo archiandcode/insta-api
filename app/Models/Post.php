@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $user_id
  * @property string|null $photo
  * @property string|null $description
+ * @property boolean $is_archived
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
@@ -40,6 +41,7 @@ class Post extends Model
     protected $fillable = [
         'description',
         'photo',
+        'is_archived'
     ];
 
     public function user(): BelongsTo
