@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\Comment;
 
+use App\Data\Post\CommentData;
 use App\Http\Requests\ApiRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class AddCommentRequest extends ApiRequest
 {
@@ -12,5 +12,9 @@ class AddCommentRequest extends ApiRequest
         return [
             'comment' => 'required|string|max:255'
         ];
+    }
+
+    public function data(): CommentData {
+        return CommentData::from($this->validated());
     }
 }
