@@ -44,6 +44,8 @@ class CommentService
             return responseFailed('Unauthorized', 403);
         }
 
+        $comment->delete();
+
         return response()->noContent();
     }
 }

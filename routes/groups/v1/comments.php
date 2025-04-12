@@ -9,7 +9,7 @@ Route::controller(CommentController::class)
     ->group(function() {
         Route::get('/{post}/comments', 'index')->name('index');
         Route::post('/{post}/comments', 'store')->name('store');
-        Route::patch('/{post}/comments/{comment}', 'update')->name('update');
+        Route::put('/{post}/comments/{comment}', 'update')->name('update');
         Route::delete('/{post}/comments/{comment}', 'delete')->name('delete');
     });
 

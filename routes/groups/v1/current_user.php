@@ -10,7 +10,9 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function() {
     Route::post('/register', RegisterController::class)->name('register');
     Route::post('/login', LoginController::class)->name('login');
 
-    Route::controller(CurrentUserController::class)->group(function () {
+    Route::controller(CurrentUserController::class)
+        ->prefix('/profile')
+        ->group(function () {
         Route::get('/', 'user')->name('current');
         Route::patch('/', 'update')->name('update');
         Route::post('/avatar', 'avatar')->name('avatar');

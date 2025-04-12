@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,9 +35,18 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         $this->renderable(function(NotFoundHttpException $e){
-            return responseFailed($e->getMessage(), 404);
+            return responseFailed("Data not found", 404);
+        });
+
+        $this->renderable(function(MethodNotAllowedHttpException $e){
+            return responseFailed("Unsupported method", 405);
         });
 
         return parent::render($request, $e);
+    }
+
+    public function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json(['error' => 'Unauthenticated.'], 401);
     }
 }

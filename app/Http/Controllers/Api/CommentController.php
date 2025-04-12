@@ -10,10 +10,22 @@ use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')
+        ->except(['index']);
+    }
+
+    public function index(Post $post): AnonymousResourceCollection
+    {
+        return CommentResource::collection($post->comments);
+    }
+
     public function store(Post $post, AddCommentRequest $request): CommentResource
     {
         return CommentService::store($post, $request->data());
