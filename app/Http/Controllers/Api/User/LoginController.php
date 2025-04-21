@@ -42,7 +42,7 @@ class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        return User::login($request->data());
+        return User::login($request->getData());
     }
 
 }

@@ -28,12 +28,12 @@ class CommentController extends Controller
 
     public function store(Post $post, AddCommentRequest $request): CommentResource
     {
-        return CommentService::store($post, $request->data());
+        return CommentService::store($post, $request->getData());
     }
 
     public function update(Post $post, Comment $comment, UpdateCommentRequest $request): CommentResource|JsonResponse
     {
-        return CommentService::update($comment, $request->data());
+        return CommentService::update($comment, $request->getData());
     }
 
     public function delete(Post $post, Comment $comment): Response|JsonResponse

@@ -56,6 +56,6 @@ class RegisterController extends Controller
      */
     public function __invoke(RegisterRequest $request): CurrentUserResource
     {
-        return User::store($request->data());
+        return User::store($request->getData());
     }
 }

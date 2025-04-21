@@ -14,7 +14,7 @@ class UpdatePostRequest extends ApiRequest
         ];
     }
 
-    public function data(): UpdatePostData
+    public function getData(): UpdatePostData
     {
         return UpdatePostData::from($this->validated());
     }

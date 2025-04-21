@@ -25,7 +25,7 @@ class CurrentUserController extends Controller
     public function update(UpdateUserRequest $request): CurrentUserResource
     {
         return new CurrentUserResource(
-            UserService::update($request->data())
+            UserService::update($request->getData())
         );
     }
 

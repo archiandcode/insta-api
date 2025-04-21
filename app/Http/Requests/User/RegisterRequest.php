@@ -17,7 +17,7 @@ class RegisterRequest extends ApiRequest
         ];
     }
 
-    public function data() : RegisterData {
+    public function getData() : RegisterData {
         return RegisterData::from($this->validated());
     }
 }

@@ -16,7 +16,7 @@ class PostStoreRequest extends ApiRequest
         ];
     }
 
-    public function data(): CreatePostData
+    public function getData(): CreatePostData
     {
         return CreatePostData::from($this->validated());
     }

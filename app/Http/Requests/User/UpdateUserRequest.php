@@ -17,7 +17,7 @@ class UpdateUserRequest extends FormRequest
         ];
     }
 
-    public function data(): UpdateUserData {
+    public function getData(): UpdateUserData {
         return UpdateUserData::from($this->validated());
     }
 }

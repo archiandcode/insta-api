@@ -16,7 +16,7 @@ class LoginRequest extends ApiRequest
         ];
     }
 
-    public function data() : LoginData {
+    public function getData() : LoginData {
         return LoginData::from($this->validated());
     }
 

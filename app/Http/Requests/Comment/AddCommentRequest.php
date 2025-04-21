@@ -14,7 +14,7 @@ class AddCommentRequest extends ApiRequest
         ];
     }
 
-    public function data(): CommentData {
+    public function getData(): CommentData {
         return CommentData::from($this->validated());
     }
 }

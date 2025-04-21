@@ -14,7 +14,7 @@ class UpdateCommentRequest extends FormRequest
         ];
     }
 
-    public function data(): CommentData {
+    public function getData(): CommentData {
         return CommentData::from($this->validated());
     }
 }
