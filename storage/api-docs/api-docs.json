@@ -6,6 +6,300 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/posts/{post}/comments": {
+            "get": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Get comments for a post",
+                "description": "Returns a list of comments for a specific post",
+                "operationId": "18034e7591f147f0c74199972bffba77",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "Post ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of comments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 12
+                                            },
+                                            "user": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    },
+                                                    "avatar": {
+                                                        "type": "string",
+                                                        "example": "https://yourdomain.com/storage/avatars/avatar.jpg"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "comment": {
+                                                "type": "string",
+                                                "example": "Nice post!"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "28/04/2025 14:30"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Add a comment to a post",
+                "description": "Adds a new comment to a specific post",
+                "operationId": "5a32d72d0593b3bec9bec52d3dcb988d",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "Post ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "comment"
+                                ],
+                                "properties": {
+                                    "comment": {
+                                        "type": "string",
+                                        "example": "This is a new comment"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Comment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 12
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "https://yourdomain.com/storage/avatars/avatar.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "comment": {
+                                            "type": "string",
+                                            "example": "This is a new comment"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "28/04/2025 14:30"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/posts/{post}/comments/{comment}": {
+            "put": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Update a comment",
+                "description": "Updates an existing comment on a post",
+                "operationId": "95c598bfa38bd2d6701ce36ad53e195b",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "Post ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "comment",
+                        "in": "path",
+                        "description": "Comment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "comment"
+                                ],
+                                "properties": {
+                                    "comment": {
+                                        "type": "string",
+                                        "example": "Updated comment text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comment updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 12
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "https://yourdomain.com/storage/avatars/avatar.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "comment": {
+                                            "type": "string",
+                                            "example": "Updated comment text"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "28/04/2025 14:30"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Delete a comment",
+                "description": "Deletes a comment from a post",
+                "operationId": "0eb7d2b813b46cdf69924babc0216189",
+                "parameters": [
+                    {
+                        "name": "post",
+                        "in": "path",
+                        "description": "Post ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "comment",
+                        "in": "path",
+                        "description": "Comment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Comment deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/posts": {
             "post": {
                 "tags": [
@@ -311,10 +605,282 @@
                 ]
             }
         },
+        "/api/v1/profile": {
+            "get": {
+                "tags": [
+                    "2. Profile"
+                ],
+                "summary": "Get current user profile",
+                "description": "Returns information about the authenticated user",
+                "operationId": "49d94eefc8e488baccc0aca063463849",
+                "responses": {
+                    "200": {
+                        "description": "Current user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "john@example.com"
+                                        },
+                                        "login": {
+                                            "type": "string",
+                                            "example": "john_doe"
+                                        },
+                                        "subscribers": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "publications": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "https://yourdomain.com/storage/avatars/avatar.jpg"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "2. Profile"
+                ],
+                "summary": "Update current user profile",
+                "description": "Updates the authenticated user's profile information",
+                "operationId": "cf55cbb67aa3ac5ef6f6cf0cec3c0ccb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "login": {
+                                        "type": "string",
+                                        "example": "john_doe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newpassword123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe Updated"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "newjohn@example.com"
+                                        },
+                                        "login": {
+                                            "type": "string",
+                                            "example": "john_doe_updated"
+                                        },
+                                        "subscribers": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "publications": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "https://yourdomain.com/storage/avatars/avatar.jpg"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email field must be a valid email address."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "The email field must be a valid email address."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/profile/avatar": {
+            "post": {
+                "tags": [
+                    "2. Profile"
+                ],
+                "summary": "Upload or update user avatar",
+                "description": "Uploads a new avatar for the authenticated user",
+                "operationId": "49393366d7a1c4dec8723b4369ebd7a4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "avatar"
+                                ],
+                                "properties": {
+                                    "avatar": {
+                                        "description": "Avatar image file (jpeg or png, max 1MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Avatar updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "john@example.com"
+                                        },
+                                        "login": {
+                                            "type": "string",
+                                            "example": "john_doe"
+                                        },
+                                        "subscribers": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "publications": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "https://yourdomain.com/storage/avatars/new_avatar.jpg"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The avatar must be a file of type: jpeg, png."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "avatar": [
+                                                    "The avatar must be a file of type: jpeg, png."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/login": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "1. Authentication"
                 ],
                 "summary": "Авторизация пользователя",
                 "description": "Вход пользователя по email или login и получение токена",
@@ -384,7 +950,7 @@
         "/api/v1/user/register": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "1. Authentication"
                 ],
                 "summary": "Регистрация нового пользователя",
                 "description": "Создание нового пользователя с возвратом его профиля",
@@ -498,6 +1064,166 @@
                     }
                 }
             }
+        },
+        "/api/v1/users/{user}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user profile",
+                "description": "Returns detailed profile information of a user",
+                "operationId": "da465f43567478f255c1892186f2af9d",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User profile data"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user}/posts": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user's posts",
+                "description": "Returns a list of posts created by a user",
+                "operationId": "c6edc1bff02524861905ae1a9b73be65",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user's posts"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user}/subscriptions": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user's subscriptions",
+                "description": "Returns a list of users the specified user is subscribed to",
+                "operationId": "c88820799e88a4d5ece265c44efdd13d",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of subscriptions"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user}/subscribers": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user's subscribers",
+                "description": "Returns a list of users who subscribed to the specified user",
+                "operationId": "8f8ecb2d231d4aff9a8ebf1cb0f38a8a",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of subscribers"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user}/subscribe": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Subscribe to a user",
+                "description": "Subscribe to the specified user",
+                "operationId": "3a55beac4b430e1f4285251c417198b2",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID to subscribe to",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Subscribed successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -512,12 +1238,24 @@
     },
     "tags": [
         {
+            "name": "Comments",
+            "description": "Comments"
+        },
+        {
             "name": "Posts",
             "description": "Posts"
         },
         {
-            "name": "Authentication",
-            "description": "Authentication"
+            "name": "2. Profile",
+            "description": "2. Profile"
+        },
+        {
+            "name": "1. Authentication",
+            "description": "1. Authentication"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }
