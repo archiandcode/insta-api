@@ -608,7 +608,7 @@
         "/api/v1/profile": {
             "get": {
                 "tags": [
-                    "2. Profile"
+                    "Profile"
                 ],
                 "summary": "Get current user profile",
                 "description": "Returns information about the authenticated user",
@@ -663,7 +663,7 @@
             },
             "patch": {
                 "tags": [
-                    "2. Profile"
+                    "Profile"
                 ],
                 "summary": "Update current user profile",
                 "description": "Updates the authenticated user's profile information",
@@ -779,7 +779,7 @@
         "/api/v1/profile/avatar": {
             "post": {
                 "tags": [
-                    "2. Profile"
+                    "Profile"
                 ],
                 "summary": "Upload or update user avatar",
                 "description": "Uploads a new avatar for the authenticated user",
@@ -880,7 +880,7 @@
         "/api/v1/user/login": {
             "post": {
                 "tags": [
-                    "1. Authentication"
+                    "Authentication"
                 ],
                 "summary": "Авторизация пользователя",
                 "description": "Вход пользователя по email или login и получение токена",
@@ -950,7 +950,7 @@
         "/api/v1/user/register": {
             "post": {
                 "tags": [
-                    "1. Authentication"
+                    "Authentication"
                 ],
                 "summary": "Регистрация нового пользователя",
                 "description": "Создание нового пользователя с возвратом его профиля",
@@ -1246,12 +1246,12 @@
             "description": "Posts"
         },
         {
-            "name": "2. Profile",
-            "description": "2. Profile"
+            "name": "Profile",
+            "description": "Profile"
         },
         {
-            "name": "1. Authentication",
-            "description": "1. Authentication"
+            "name": "Authentication",
+            "description": "Authentication"
         },
         {
             "name": "Users",
