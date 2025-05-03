@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Like whereUserId($value)
  * @property-read \App\Models\Post $post
  * @property-read \App\Models\User $user
+ * @method static \Database\Factories\LikeFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class Like extends Model

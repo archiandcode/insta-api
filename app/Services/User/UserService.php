@@ -4,9 +4,11 @@ namespace App\Services\User;
 
 use App\Data\User\LoginData;
 use App\Data\User\RegisterData;
+use App\Data\User\UpdatePrivacyData;
 use App\Data\User\UpdateUserData;
 use App\Http\Resources\User\CurrentUserResource;
 use App\Models\User;
+use App\Traits\UsesAuthUser;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
@@ -14,6 +16,8 @@ use Spatie\LaravelData\Optional;
 
 class UserService
 {
+    use UsesAuthUser;
+
     public function store(RegisterData $data): CurrentUserResource
     {
         return new CurrentUserResource(
@@ -41,8 +45,7 @@ class UserService
 
     public function update(UpdateUserData $data): User
     {
-        /** @var User $user*/
-        $user = auth()->user();
+        $user = $this->currentUser();
         $user->update($data->toArray());
 
         return $user;
@@ -50,8 +53,7 @@ class UserService
 
     public function updateAvatar(UploadedFile $avatar): User
     {
-        /** @var User $user*/
-        $user = auth()->user();
+        $user = $this->currentUser();
 
         $user->update([
             'avatar' => uploadImage($avatar)
@@ -70,9 +72,17 @@ class UserService
 
     public function currentUserPosts(): Collection
     {
-        /** @var User $currentUser */
-        $currentUser = auth()->user();
+        $currentUser = $this->currentUser();
 
         return $currentUser->posts()->get();
+    }
+
+    public function updatePrivacy(UpdatePrivacyData $data): void
+    {
+        $user = $this->currentUser();
+        if ($user->is_private != $data->is_private)
+        {
+            $user->update(['is_private' => true]);
+        }
     }
 }

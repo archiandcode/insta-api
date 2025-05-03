@@ -29,13 +29,13 @@ class PostService
 
         return $user->posts()->create([
             'photo' => config('app.url') . Storage::url($path),
-            'description' => $data->description
+            'description' => $data->description,
         ]);
     }
 
     public function update(Post $post, UpdatePostData $data): PostResource|JsonResponse
     {
-        /** @var User $user*/
+        /** @var User $user */
         $user = auth()->user();
 
         if ($user->id !== $post->user_id) {
@@ -44,12 +44,12 @@ class PostService
 
         $post->update($data->toArray());
 
-        return new PostResource($post);
+        return new PostResource($post->refresh());
     }
 
     public function delete(Post $post): JsonResponse|Response
     {
-        /** @var User $user*/
+        /** @var User $user */
         $user = auth()->user();
 
         if ($user->id !== $post->user_id) {
@@ -57,6 +57,7 @@ class PostService
         }
 
         $post->delete();
+
         return response()->noContent();
     }
 }

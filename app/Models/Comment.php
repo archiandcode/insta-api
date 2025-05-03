@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
  * @property-read \App\Models\Post $post
  * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\CommentFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class Comment extends Model

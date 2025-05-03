@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUserId($value)
  * @property-read \App\Models\User $subscriber
  * @property-read \App\Models\User $user
+ * @method static \Database\Factories\SubscriptionFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class Subscription extends Model

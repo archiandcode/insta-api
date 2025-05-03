@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -53,6 +53,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $subscribers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Subscription> $subscriptions
  * @property-read int|null $subscriptions_count
+ * @property int $is_private
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $subscribedUsers
+ * @property-read int|null $subscribed_users_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsPrivate($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -65,6 +69,7 @@ class User extends Authenticatable
         'login',
         'avatar',
         'password',
+        'is_private',
     ];
 
     protected $hidden = [

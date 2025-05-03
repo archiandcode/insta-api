@@ -16,5 +16,6 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function() {
         Route::get('/', 'user')->name('current');
         Route::patch('/', 'update')->name('update');
         Route::post('/avatar', 'avatar')->name('avatar');
-    });
+        Route::patch('/privacy', 'updatePrivacy')->name('privacy.update');
+        });
 });
