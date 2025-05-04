@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Illuminate\Database\Eloquent\Collection currentUserPosts()
  * @method static void updatePrivacy(\App\Data\User\UpdatePrivacyData $data)
  * @method static \App\Enums\SubscribeState subscribe(\App\Models\User $user)
+ * @method static \App\Enums\SubscribeState unsubscribe(\App\Models\User $user)
  *
- * @see UserService;
+ * @see \App\Services\User\UserService
  */
 
 class User extends Facade

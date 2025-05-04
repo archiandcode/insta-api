@@ -145,4 +145,11 @@ class UserController extends Controller
             'state' => UserService::subscribe($user),
         ], 201);
     }
+
+    public function unsubscribe(User $user): JsonResponse
+    {
+        return response()->json([
+            'state' => UserService::unsubscribe($user),
+        ], 201);
+    }
 }

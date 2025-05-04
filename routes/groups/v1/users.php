@@ -10,6 +10,7 @@ Route::controller(UserController::class)
         Route::get('/{user}', 'getUser');
         Route::get('/{user}/posts', 'posts');
         Route::post('/{user}/subscribe', 'subscribe');
+        Route::post('/{user}/unsubscribe', 'unsubscribe');
 
         Route::get('/{user}/subscriptions', 'subscriptions');
         Route::get('/{user}/subscribers', 'subscribers');

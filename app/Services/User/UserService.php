@@ -90,19 +90,32 @@ class UserService
 
     public function subscribe(User $user): SubscribeState
     {
+        $exists = Subscription::query()
+            ->whereUserId($user->id)
+            ->whereSubscriberId(auth()->id())
+            ->exists();
+
+        if ($exists) {
+            return SubscribeState::AlreadySubscribed;
+        }
+
+        Subscription::query()->create([
+            'user_id' => $user->id,
+            'subscriber_id' => auth()->id(),
+        ]);
+
+        return SubscribeState::Subscribed;
+    }
+
+    public function unsubscribe(User $user): SubscribeState
+    {
         $subscription = Subscription::query()
             ->whereUserId($user->id)
             ->whereSubscriberId(auth()->id())
             ->first();
 
-        if (is_null($subscription)) {
-            Subscription::query()
-                ->create([
-                    'user_id' => $user->id,
-                    'subscriber_id' => auth()->id(),
-                ]);
-
-            return SubscribeState::Subscribed;
+        if (!$subscription) {
+            return SubscribeState::AlreadyUnsubscribed;
         }
 
         $subscription->delete();
