@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Illuminate\Database\Eloquent\Collection posts(\App\Models\User $user)
  * @method static \Illuminate\Database\Eloquent\Collection currentUserPosts()
  * @method static void updatePrivacy(\App\Data\User\UpdatePrivacyData $data)
+ * @method static \App\Enums\SubscribeState subscribe(\App\Models\User $user)
  *
  * @see UserService;
  */

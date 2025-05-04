@@ -6,7 +6,9 @@ use App\Data\User\LoginData;
 use App\Data\User\RegisterData;
 use App\Data\User\UpdatePrivacyData;
 use App\Data\User\UpdateUserData;
+use App\Enums\SubscribeState;
 use App\Http\Resources\User\CurrentUserResource;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Traits\UsesAuthUser;
 use Illuminate\Database\Eloquent\Collection;
@@ -85,4 +87,27 @@ class UserService
             $user->update(['is_private' => true]);
         }
     }
+
+    public function subscribe(User $user): SubscribeState
+    {
+        $subscription = Subscription::query()
+            ->whereUserId($user->id)
+            ->whereSubscriberId(auth()->id())
+            ->first();
+
+        if (is_null($subscription)) {
+            Subscription::query()
+                ->create([
+                    'user_id' => $user->id,
+                    'subscriber_id' => auth()->id(),
+                ]);
+
+            return SubscribeState::Subscribed;
+        }
+
+        $subscription->delete();
+
+        return SubscribeState::Unsubscribed;
+    }
+
 }

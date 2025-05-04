@@ -7,10 +7,10 @@ Route::controller(UserController::class)
     ->prefix('users')
     ->as('users.')
     ->group(function () {
-        Route::get('/{user}', 'getUser')->name('get-user');
-        Route::get('/{user}/posts', 'posts')->name('posts');
-        Route::post('/{user}/subscribe', 'subscribe')->name('subscribe');
+        Route::get('/{user}', 'getUser');
+        Route::get('/{user}/posts', 'posts');
+        Route::post('/{user}/subscribe', 'subscribe');
 
-        Route::get('/{user}/subscriptions', 'subscriptions')->name('subscriptions');
-        Route::get('/{user}/subscribers', 'subscribers')->name('subscribers');
+        Route::get('/{user}/subscriptions', 'subscriptions');
+        Route::get('/{user}/subscribers', 'subscribers');
     });

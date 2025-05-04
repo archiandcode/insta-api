@@ -14,10 +14,10 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
             'login' => $this->login,
-            'subscribers' => $this->subscriptionsCount(),
-            'publications' => $this->postsCount(),
+            'subscribers' => $this->followers()->count(),
+            'subscriptions' => $this->following()->count(),
+            'publications' => $this->posts()->count(),
             'is_subscribed' => $this->isSubscribed()
         ];
     }

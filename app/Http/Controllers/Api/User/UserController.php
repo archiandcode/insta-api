@@ -91,7 +91,7 @@ class UserController extends Controller
      */
     public function subscriptions(User $user): AnonymousResourceCollection
     {
-        return MinifiedUserResource::collection($user->subscribedUsers()->get());
+        return MinifiedUserResource::collection($user->following()->get());
     }
 
     /**
@@ -116,7 +116,7 @@ class UserController extends Controller
      */
     public function subscribers(User $user): AnonymousResourceCollection
     {
-        return MinifiedUserResource::collection($user->subscribers()->get());
+        return MinifiedUserResource::collection($user->followers()->get());
     }
 
     /**
@@ -142,7 +142,7 @@ class UserController extends Controller
     public function subscribe(User $user): JsonResponse
     {
         return response()->json([
-            'state' => $user->subscribe()
+            'state' => UserService::subscribe($user),
         ], 201);
     }
 }

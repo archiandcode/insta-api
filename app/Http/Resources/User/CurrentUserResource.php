@@ -15,8 +15,8 @@ class CurrentUserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'login' => $this->login,
-            'subscribers' => $this->subscriptionsCount(),
-            'publications' => $this->postsCount(),
+            'subscribers' => $this->followers()->count(),
+            'publications' => $this->posts()->count(),
             'avatar' => $this->avatar,
         ];
     }

@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -92,12 +92,12 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function subscribers(): BelongsToMany
+    public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'subscriptions', 'user_id', 'subscriber_id');
     }
 
-    public function subscribedUsers(): BelongsToMany
+    public function following(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
     }
@@ -107,43 +107,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    public function subscribe()
-    {
-        $subscription = Subscription::query()
-            ->whereUserId($this->id)
-            ->whereSubscriberId(auth()->id())
-            ->first();
-
-        if (is_null($subscription)) {
-            Subscription::query()
-                ->create([
-                    'user_id' => $this->id,
-                    'subscriber_id' => auth()->id(),
-                ]);
-
-            return SubscribeState::Subscribed;
-        }
-
-        $subscription->delete();
-
-        return SubscribeState::Unsubscribed;
-    }
-
     public function isSubscribed(): bool
     {
         return Subscription::query()
             ->whereUserId($this->id)
             ->whereSubscriberId(auth()->id())
             ->exists();
-    }
-
-    public function subscriptionsCount()
-    {
-        return $this->subscribers()->count();
-    }
-
-    public function postsCount()
-    {
-        return $this->posts()->count();
     }
 }
