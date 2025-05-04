@@ -11,4 +11,5 @@ Route::controller(PostController::class)
         Route::patch('/{post}', 'update')->name('update');
         Route::delete('/{post}', 'delete')->name('delete');
         Route::post('/{post}/like', 'like')->name('like');
+        Route::post('/{post}/unlike', 'unlike')->name('unlike');
     });

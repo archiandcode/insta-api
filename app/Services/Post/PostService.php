@@ -4,6 +4,7 @@ namespace App\Services\Post;
 
 use App\Data\Post\CreatePostData;
 use App\Data\Post\UpdatePostData;
+use App\Enums\LikeState;
 use App\Models\Post;
 use App\Models\User;
 use App\Traits\UsesAuthUser;
@@ -53,4 +54,33 @@ class PostService
 
         return $post->delete();
     }
+
+    public function like(Post $post): LikeState
+    {
+        $userId = $this->currentUser()->id;
+
+        $like = $post->likes()->firstOrCreate(['user_id' => $userId]);
+
+        if ($like->wasRecentlyCreated) {
+            return LikeState::Liked;
+        }
+
+        return LikeState::AlreadyLiked;
+    }
+
+    public function unlike(Post $post): LikeState
+    {
+        $userId = $this->currentUser()->id;
+
+        $like = $post->likes()->where('user_id', $userId)->first();
+
+        if ($like) {
+            $like->delete();
+            return LikeState::Unliked;
+        }
+
+        return LikeState::AlreadyUnliked;
+    }
+
+
 }

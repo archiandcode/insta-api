@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $user_id
@@ -59,26 +59,6 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
-    }
-
-    public function like()
-    {
-        $like = Like::query()
-            ->wherePostId($this->id)
-            ->whereUserId(auth()->id())
-            ->first();
-
-            if (is_null($like)) {
-                $this->likes()->create([
-                    'user_id' => auth()->id()
-                ]);
-
-                return LikeState::Liked;
-            }
-
-            $like->delete();
-
-            return LikeState::Unliked;
     }
 
     public function likesCount() :int {

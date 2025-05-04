@@ -214,7 +214,14 @@ class PostController extends Controller
     public function like(Post $post): JsonResponse
     {
         return response()->json([
-            'state' => $post->like()
+            'state' => PostService::like($post)
+        ]);
+    }
+
+    public function unlike(Post $post): JsonResponse
+    {
+        return response()->json([
+            'state' => PostService::unlike($post)
         ]);
     }
 }

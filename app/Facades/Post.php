@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static \App\Models\Post store(\App\Data\Post\CreatePostData $data)
  * @method static bool update(\App\Models\Post $post, \App\Data\Post\UpdatePostData $data)
  * @method static bool delete(\App\Models\Post $post)
+ * @method static \App\Enums\LikeState like(\App\Models\Post $post)
+ * @method static \App\Enums\LikeState unlike(\App\Models\Post $post)
  *
  * @see PostService
  */
