@@ -7,12 +7,10 @@ use App\Data\User\RegisterData;
 use App\Data\User\UpdatePrivacyData;
 use App\Data\User\UpdateUserData;
 use App\Enums\SubscribeState;
-use App\Http\Resources\User\CurrentUserResource;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Traits\UsesAuthUser;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Spatie\LaravelData\Optional;
 
@@ -20,29 +18,23 @@ class UserService
 {
     use UsesAuthUser;
 
-    public function store(RegisterData $data): CurrentUserResource
+    public function store(RegisterData $data): ?User
     {
-        return new CurrentUserResource(
-            User::query()->create($data->toArray())
-        );
+        return User::query()->create($data->toArray());
     }
 
-    public function login(LoginData $data): JsonResponse
+    public function login(LoginData $data): ?string
     {
         if(!($data->email instanceof Optional)|| !($data->login instanceof Optional)) {
             if (auth()->guard('web')->attempt($data->toArray())) {
                 /** @var User $user*/
                 $user = auth()->user();
                 $user->tokens()->delete();
-                $token = $user->createToken('auth_token')->plainTextToken;
-
-                return response()->json([
-                    'token' => $token
-                ]);
+                return $user->createToken('auth_token')->plainTextToken;
             }
         }
 
-        return responseFailed('Invalid credentials', 401);
+        return null;
     }
 
     public function update(UpdateUserData $data): User

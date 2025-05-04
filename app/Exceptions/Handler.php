@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Traits\UsesApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -11,6 +12,7 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use UsesApiResponse;
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -32,14 +34,14 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e): \Symfony\Component\HttpFoundation\Response
     {
         $this->renderable(function(NotFoundHttpException $e){
-            return responseFailed("Data not found", 404);
+            return $this->responseFailed("Data not found", 404);
         });
 
         $this->renderable(function(MethodNotAllowedHttpException $e){
-            return responseFailed("Unsupported method", 405);
+            return $this->responseFailed("Unsupported method", 405);
         });
 
         return parent::render($request, $e);

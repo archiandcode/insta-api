@@ -4,17 +4,17 @@ namespace App\Services\Post;
 
 use App\Data\Post\CreatePostData;
 use App\Data\Post\UpdatePostData;
-use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Response;
+use App\Traits\UsesAuthUser;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
 class PostService
 {
+    use UsesAuthUser;
+
     public function index(User $user): Collection
     {
         return $user->posts()->get();
@@ -24,8 +24,7 @@ class PostService
     {
         $path = $data->photo->storePublicly('images');
 
-        /** @var User $user */
-        $user = auth()->user();
+        $user = $this->currentUser();
 
         return $user->posts()->create([
             'photo' => config('app.url') . Storage::url($path),
@@ -33,31 +32,25 @@ class PostService
         ]);
     }
 
-    public function update(Post $post, UpdatePostData $data): PostResource|JsonResponse
+    public function update(Post $post, UpdatePostData $data): bool
     {
-        /** @var User $user */
-        $user = auth()->user();
+        $user = $this->currentUser();
 
         if ($user->id !== $post->user_id) {
-            return responseFailed('Unauthorized', 403);
+            return false;
         }
 
-        $post->update($data->toArray());
-
-        return new PostResource($post->refresh());
+        return $post->update($data->toArray());
     }
 
-    public function delete(Post $post): JsonResponse|Response
+    public function delete(Post $post): bool
     {
-        /** @var User $user */
-        $user = auth()->user();
+        $user = $this->currentUser();
 
         if ($user->id !== $post->user_id) {
-            return responseFailed('Unauthorized', 403);
+            return false;
         }
 
-        $post->delete();
-
-        return response()->noContent();
+        return $post->delete();
     }
 }

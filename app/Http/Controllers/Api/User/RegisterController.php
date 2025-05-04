@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Facades\User;
+use App\Facades\User as UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Resources\User\CurrentUserResource;
@@ -56,6 +56,6 @@ class RegisterController extends Controller
      */
     public function __invoke(RegisterRequest $request): CurrentUserResource
     {
-        return User::store($request->getData());
+        return new CurrentUserResource(UserService::store($request->getData()));
     }
 }

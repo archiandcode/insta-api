@@ -6,9 +6,9 @@ use App\Services\Comment\CommentService;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \App\Http\Resources\Comment\CommentResource store(\App\Models\Post $post, \App\Data\Post\CommentData $data)
- * @method static \App\Http\Resources\Comment\CommentResource|\Illuminate\Http\JsonResponse update(\App\Models\Comment $comment, \App\Data\Post\CommentData $data)
- * @method static \Illuminate\Http\Response|\Illuminate\Http\JsonResponse delete(\App\Models\Comment $comment)
+ * @method static \App\Models\Comment store(\App\Models\Post $post, \App\Data\Post\CommentData $data)
+ * @method static bool update(\App\Models\Comment $comment, \App\Data\Post\CommentData $data)
+ * @method static bool delete(\App\Models\Comment $comment)
  *
  * @see CommentService
  */

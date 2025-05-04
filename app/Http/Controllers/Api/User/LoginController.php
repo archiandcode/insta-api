@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Facades\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
+use App\Traits\UsesApiResponse;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
 
@@ -40,9 +41,17 @@ use OpenApi\Annotations as OA;
  */
 class LoginController extends Controller
 {
+    use UsesApiResponse;
+
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        return User::login($request->getData());
+        $token = User::login($request->getData());
+
+        if (!$token) {
+            return $this->responseFailed('Invalid credentials', 401);
+        }
+
+        return response()->json(compact('token'), 201);
     }
 
 }

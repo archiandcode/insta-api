@@ -8,11 +8,14 @@ use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
+use App\Traits\UsesApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
+    use UsesApiResponse;
+
     public function __construct()
     {
         $this->middleware('auth:sanctum');
@@ -121,7 +124,11 @@ class PostController extends Controller
      */
     public function update(Post $post, UpdatePostRequest $request): JsonResponse|PostResource
     {
-        return PostService::update($post, $request->getData());
+        if (PostService::update($post, $request->getData())) {
+            return $this->responseFailed('Unauthorized', 403);
+        }
+
+        return response()->json(new PostResource($post->refresh()));
     }
 
     /**
@@ -158,7 +165,13 @@ class PostController extends Controller
      */
     public function delete(Post $post): Response|JsonResponse
     {
-        return PostService::delete($post);
+        $success = PostService::delete($post);
+
+        if (!$success) {
+            return $this->responseFailed('Unauthorized', 403);
+        }
+
+        return response()->noContent();
     }
 
     /**

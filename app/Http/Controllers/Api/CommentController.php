@@ -9,12 +9,15 @@ use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Traits\UsesApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
+    use UsesApiResponse;
+
     public function __construct()
     {
         $this->middleware('auth:sanctum')
@@ -103,7 +106,9 @@ class CommentController extends Controller
      */
     public function store(Post $post, AddCommentRequest $request): CommentResource
     {
-        return CommentService::store($post, $request->getData());
+        $comment = CommentService::store($post, $request->getData());
+        return new CommentResource($comment);
+
     }
 
     /**
@@ -155,7 +160,11 @@ class CommentController extends Controller
      */
     public function update(Post $post, Comment $comment, UpdateCommentRequest $request): CommentResource|JsonResponse
     {
-        return CommentService::update($comment, $request->getData());
+        if (CommentService::update($comment, $request->getData())) {
+            return $this->responseFailed('Unauthorized', 403);
+        }
+
+        return response()->json(new CommentResource($comment));
     }
 
     /**
@@ -187,6 +196,10 @@ class CommentController extends Controller
      */
     public function delete(Post $post, Comment $comment): Response|JsonResponse
     {
-        return CommentService::delete($comment);
+        if (CommentService::delete($comment)) {
+            return $this->responseFailed('Unauthorized', 403);
+        }
+
+        return response()->noContent();
     }
 }
