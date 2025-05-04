@@ -114,4 +114,9 @@ class User extends Authenticatable
             ->whereSubscriberId(auth()->id())
             ->exists();
     }
+
+    public function hasFollower(int $followerId): bool
+    {
+        return $this->followers()->where('subscriber_id', $followerId)->exists();
+    }
 }

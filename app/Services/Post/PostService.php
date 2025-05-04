@@ -18,6 +18,16 @@ class PostService
 
     public function index(User $user): Collection
     {
+        $currentUser = $this->currentUser();
+
+        if (
+            !$user->is_private ||
+            $currentUser->id === $user->id ||
+            $user->hasFollower($currentUser->id)
+        ) {
+            return $user->posts()->get();
+        }
+
         return $user->posts()->get();
     }
 
