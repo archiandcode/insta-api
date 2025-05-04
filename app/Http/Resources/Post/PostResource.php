@@ -17,8 +17,8 @@ class PostResource extends JsonResource
             'photo' => $this->photo,
             'description' => $this->description,
             'user' => new MinifiedUserResource($this->user),
-            'likes_count' => $this->likesCount(),
-            'comments_count' => $this->commentsCount(),
+            'likes_count' => $this->likes()->count(),
+            'comments_count' => $this->comments()->count(),
             'created_at' => Carbon::parse($this->created_at)->format('H:i d.m.Y'),
         ];
     }
