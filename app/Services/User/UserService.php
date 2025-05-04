@@ -9,6 +9,7 @@ use App\Data\User\UpdateUserData;
 use App\Enums\SubscribeState;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Services\StorageService;
 use App\Traits\UsesAuthUser;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
@@ -17,6 +18,10 @@ use Spatie\LaravelData\Optional;
 class UserService
 {
     use UsesAuthUser;
+
+    public function __construct(
+        protected StorageService $storage,
+    ) {}
 
     public function store(RegisterData $data): ?User
     {
@@ -50,7 +55,7 @@ class UserService
         $user = $this->currentUser();
 
         $user->update([
-            'avatar' => uploadImage($avatar)
+            'avatar' => $this->storage->upload($avatar, 'avatar')
         ]);
 
         return $user;
